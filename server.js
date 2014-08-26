@@ -3,13 +3,13 @@ var app = express();
 
 var monk = require('monk');
 
-var connection_string = 'localhost/test';
+var connection_string = 'localhost/mymongo';
 
 if (process.env.OPENSHIFT_MONGODB_DB_PASSWORD) {
   connection_string = process.env.OPENSHIFT_MONGODB_DB_USERNAME + ":" +
         process.env.OPENSHIFT_MONGODB_DB_PASSWORD + "@" +
         process.env.OPENSHIFT_MONGODB_DB_HOST + ':' +
-        process.env.OPENSHIFT_MONGODB_DB_PORT + '/test';
+        process.env.OPENSHIFT_MONGODB_DB_PORT + '/mymongo';
 }
 
 var db = monk(connection_string);
