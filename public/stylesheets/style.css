@@ -1,0 +1,35 @@
+body {
+  	padding: 50px;
+  	font-family: 'Lato', sans-serif;
+	font-weight: 300;
+}
+
+a {
+  	color: #00B7FF;
+}
+
+.tweet {
+	border: 1px solid #ccc;
+	padding: 5px;
+	border-radius: 2px;
+	margin: 5px;
+}
+
+#tweet_container {
+	position: absolute;
+	top: 50px;
+	left: 50px;
+	width: 400px;
+	margin: none;
+}
+
+#title {
+	padding-left: 5px;
+}
+
+#new_tweet {
+	position: absolute;
+	right: 50px;
+	top: 50px;
+	margin: 100px;
+}
