@@ -1,6 +1,5 @@
-openshift-mongodb
-=================
+=======
+Project 2
+=====
 
-Basic Node.js + MongoDB template for OpenShift
-
-Replace this file with your project description!
+Twitter Clone
