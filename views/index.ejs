@@ -7,19 +7,41 @@
     <link href='http://fonts.googleapis.com/css?family=Lato:100,300,400,700,900,100italic,300italic,400italic,700italic,900italic' rel='stylesheet' type='text/css'>
   </head>
   <body>
-    
-    <div id="new_tweet">
-      <form name="input" action="tweet" method="post">
-        Tweet: <input type="text" name="tweet">
-        <input type="submit" value="Submit">
-      </form>
-    </div>
+
+    <% if(username) { %>
+
+      Welcome <%=first%>!<br>
+      <div>
+        <form name="input" action="logout" method="post">
+          <input type="submit" value="Logout">
+        </form>
+      </div>
+
+      <hr>
+
+      <div>
+        <form name="input" action="tweet" method="post">
+          <b>Write a tweet</b> <br>
+          Tweet: <input type="text" name="tweet">
+          <input type="submit" value="Submit">
+        </form>
+      </div>
+
+    <% } else { %>
+
+        <div><a href="/users/new_user">New User</a></div>
+        <div><a href="/users/login"> Login </a></div>
+
+    <% } %>
+
+    <hr>
 
     <div id="tweet_container">
       <h1 id="title"><%= title %></h1>
       <% for(var i = 0; i < tweets.length; i++){ %>
       	<div class="tweet">
-      		<%= tweets[i].tweet %>
+      		<%= tweets[i].author_first %> <%= tweets[i].author_last %> @<%= tweets[i].author_username %>:<br>
+          <%= tweets[i].tweet %>
       	</div>
       <%}%>
     </div>
