@@ -3,12 +3,8 @@ var router = express.Router();
 
 module.exports = router;
 
-router.get('/new_user', function(req, res) {
-  res.render('users/new_user', {title: "Create New User"});
-});
-
 router.get('/login', function(req, res) {
-  res.render('users/login', {title: "Login"});
+  res.render('users/login_form', {title: "Login"});
 });
 
 router.post('/login', function(req, res) {
@@ -32,6 +28,10 @@ router.post('/login', function(req, res) {
   			}
   		}
   	});
+});
+
+router.get('/new_user', function(req, res) {
+  res.render('users/new_user', {title: "Create New User"});
 });
 
 // TODO: Check that there are not multiple users with the same username

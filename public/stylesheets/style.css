@@ -4,6 +4,14 @@ body {
 	font-weight: 300;
 }
 
+#title {
+	color: #751919;
+}
+
+#new_tweet {
+	color: #751919;
+}
+
 .tweet {
 	border: 1px solid #ccc;
 	padding: 5px;
@@ -11,26 +19,25 @@ body {
 	margin: 5px;
 }
 
-/*#tweet_container {
-	position: absolute;
-	top: 50px;
-	left: 50px;
-	width: 400px;
-	margin: none;
+#edit, #delete {
+	display: inline-block;
+	color: #751919;
+}
+
+#login_buttons {
+	border: 1px solid #ccc;
+	padding: 50px 0px 50px 0px;
+	background-color: #f1e8e8;
+}
+
+textarea {
+	width: 100%;
+}
+
+.active {
+	background-color: #f1e8e8;
 }
 
 #title {
 	padding-left: 5px;
-}*/
-
-/*#new_tweet {
-	position: absolute;
-	right: 50px;
-	top: 50px;
 }
-
-#user_info {
-	position: absolute;
-	right: 50px;
-	top: 100px;
-}*/
