@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+    <link href='http://fonts.googleapis.com/css?family=Lato:100,300,400,700,900,100italic,300italic,400italic,700italic,900italic' rel='stylesheet' type='text/css'>
+  </head>
+  <body>
+
+    <div class="col-sm-4">
+
+      <div>
+        <form name="input" action="edited_tweet" method="post">
+          <b>Edit tweet</b> <br>
+          <textarea rows="4" style="width:100%" type="text" name="tweet"><%= tweet %></textarea>
+          <input type="submit" value="Save">
+        </form>
+      </div>
+
+    </div>
+
+  </body>
+</html>

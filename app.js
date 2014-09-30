@@ -39,6 +39,7 @@ app.use(session({
 
 app.use(function(req,res,next){
     req.db = db;
+    req.mongo = mongo;
     next();
 });
 

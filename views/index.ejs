@@ -8,43 +8,56 @@
   </head>
   <body>
 
-    <% if(username) { %>
+    <div class="col-sm-4">
+      <% if(username) { %>
 
-      Welcome <%=first%>!<br>
-      <div>
-        <form name="input" action="logout" method="post">
-          <input type="submit" value="Logout">
-        </form>
-      </div>
+        <h1>Welcome <%=first%>!</h1>
+        <div>
+          <form name="input" action="logout" method="post">
+            <input type="submit" value="Logout">
+          </form>
+        </div>
+        <hr>
+        <div>
+          <form name="input" action="tweet" method="post">
+            <b>Write a tweet</b> <br>
+            <textarea rows="4" style="width:100%" type="text" name="tweet"></textarea>
+            <input type="submit" value="Submit">
+          </form>
+        </div>
 
-      <hr>
+      <% } else { %>
 
-      <div>
-        <form name="input" action="tweet" method="post">
-          <b>Write a tweet</b> <br>
-          Tweet: <input type="text" name="tweet">
-          <input type="submit" value="Submit">
-        </form>
-      </div>
+          <div><a href="/users/new_user">New User</a></div>
+          <div><a href="/users/login"> Login </a></div>
 
-    <% } else { %>
-
-        <div><a href="/users/new_user">New User</a></div>
-        <div><a href="/users/login"> Login </a></div>
-
-    <% } %>
-
-    <hr>
-
-    <div id="tweet_container">
-      <h1 id="title"><%= title %></h1>
-      <% for(var i = 0; i < tweets.length; i++){ %>
-      	<div class="tweet">
-      		<%= tweets[i].author_first %> <%= tweets[i].author_last %> @<%= tweets[i].author_username %>:<br>
-          <%= tweets[i].tweet %>
-      	</div>
-      <%}%>
+      <% } %>
     </div>
-    
+
+    <div class="col-sm-8">
+      <div id="tweet_container">
+        <h1 id="title"><%= title %></h1>
+
+        <% for(var i=tweets.length-1; i>=0; i--){ %>
+          <div class="tweet">
+        <%= tweets[i].author_first %> <%= tweets[i].author_last %> @<%= tweets[i].author_username %>: <%= tweets[i].tweet %>
+            
+            <% if (tweets[i].author == user_id) { %>
+              <form name="input" action="edit" method="post">
+                <input type="submit" value="Edit">
+                <input type="hidden" name="tweet_id" value=<%= tweets[i]._id%>>
+              </form>
+              <form name="input" action="delete" method="post">
+                <input type="submit" value="Delete">
+                <input type="hidden" name="tweet_id" value=<%= tweets[i]._id%>>
+              </form>
+            <% } %>
+
+          </div>
+        <%}%>
+
+      </div>
+    </div>
+
   </body>
 </html>
