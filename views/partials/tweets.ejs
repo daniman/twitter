@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+
+<% for(var i=tweets.length-1; i>=0; i--){ %>
+  
+  <% if (tweets[i].author == user_id) { %>
+
+    <div class="tweet active">
+      <b><%= tweets[i].author_first %> <%= tweets[i].author_last %></b>
+      <i>@<%= tweets[i].author_username %></i>: <br>
+      <%= tweets[i].tweet %>
+      <form name="input" action="edit" method="post" id="edit">
+        <button type="submit"><span class="glyphicon glyphicon-pencil"></span></button>
+        <input type="hidden" name="tweet_id" value=<%= tweets[i]._id%>>
+      </form>
+      <form name="input" action="delete" method="post" id="delete">
+        <button type="submit"><span class="glyphicon glyphicon-trash"></span></button>
+        <input type="hidden" name="tweet_id" value=<%= tweets[i]._id%>>
+      </form>
+    </div>
+
+  <% } else { %>
+
+    <div class="tweet">
+      <b><%= tweets[i].author_first %> <%= tweets[i].author_last %></b>
+      <i>@<%= tweets[i].author_username %></i>: <br>
+      <%= tweets[i].tweet %>
+    </div>
+
+  <% } %>
+
+<% } %>

@@ -7,65 +7,18 @@
   <body>
 
     <div class="col-sm-4 text-center">
-
       <% if(username) { %>
-
-        <h2>Hi <%=first%>!</h1>
-        <div>
-          <form name="input" action="logout" method="post">
-            <input type="submit" value="Logout">
-          </form>
-        </div>
-        <hr>
-        <div>
-          <form id="new_tweet" name="input" action="tweet" method="post">
-            <b>Write a tweet</b> <br>
-            <textarea rows="6" type="text" name="tweet"></textarea>
-            <input type="submit" value="Submit">
-          </form>
-        </div>
-
+        <% include partials/logged_in %>
       <% } else { %>
-        <div id="login_buttons">
-          <form method="get" action="/users/login">
-            <button type="submit">Login</button>
-          </form>
-          <form method="get" action="/users/new_user">
-            <button type="submit">New User</button>
-          </form>
-        </div>
-
+        <% include partials/logged_out %>
       <% } %>
-
     </div>
 
     <div class="col-sm-8">
       <div id="tweet_container">
         <h1 id="title" class="text-center"><%= title %>   <img src="images/fritter.png" height="39" width="55"></h1>
         <hr>
-        <% for(var i=tweets.length-1; i>=0; i--){ %>
-          <% if (tweets[i].author == user_id) { %>
-            <div class="tweet active">
-              <b><%= tweets[i].author_first %> <%= tweets[i].author_last %></b>
-              <i>@<%= tweets[i].author_username %></i>: <br>
-              <%= tweets[i].tweet %>
-              <form name="input" action="edit" method="post" id="edit">
-                <button type="submit"><span class="glyphicon glyphicon-pencil"></span></button>
-                <input type="hidden" name="tweet_id" value=<%= tweets[i]._id%>>
-              </form>
-              <form name="input" action="delete" method="post" id="delete">
-                <button type="submit"><span class="glyphicon glyphicon-trash"></span></button>
-                <input type="hidden" name="tweet_id" value=<%= tweets[i]._id%>>
-              </form>
-            </div>
-          <% } else { %>
-            <div class="tweet">
-              <b><%= tweets[i].author_first %> <%= tweets[i].author_last %></b>
-              <i>@<%= tweets[i].author_username %></i>: <br>
-              <%= tweets[i].tweet %>
-            </div>
-          <% } %>
-        <%}%>
+        <% include partials/tweets %>
       </div>      
     </div>
 

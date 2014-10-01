@@ -1,14 +1,13 @@
+// node package dependencies
 var express = require('express');
 var session = require('express-session')
 var path = require('path');
-var logger = require('morgan');
-var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var mongo = require('mongodb');
 var monk = require('monk');
 
+// openshift dependencies
 var connection_string = 'localhost/twitter';
-
 if (process.env.OPENSHIFT_MONGODB_DB_PASSWORD) {
   connection_string = process.env.OPENSHIFT_MONGODB_DB_USERNAME + ':' +
         process.env.OPENSHIFT_MONGODB_DB_PASSWORD + '@' +
@@ -16,6 +15,7 @@ if (process.env.OPENSHIFT_MONGODB_DB_PASSWORD) {
         process.env.OPENSHIFT_MONGODB_DB_PORT + '/twitter';
 }
 
+// instantiate db, routes, and users
 var db = monk(connection_string);
 var routes = require('./routes/index');
 var users = require('./routes/users');
@@ -25,16 +25,16 @@ var app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
-app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(cookieParser("S3CRE7"));
 app.use(express.static(path.join(__dirname, 'public')));
 
+// instantiate sessions
 app.use(session({
     secret: 'keyboard cat'
 }))
 
+// make db available to requests
 app.use(function(req,res,next){
     req.db = db;
     req.mongo = mongo;
@@ -51,10 +51,11 @@ app.use(function(req, res, next) {
     next(err);
 });
 
-// error handlers
+/**
+ERROR HANDLERS
+**/
 
-// development error handler
-// will print stacktrace
+// development error
 if (app.get('env') === 'development') {
     app.use(function(err, req, res, next) {
         res.status(err.status || 500);
@@ -64,9 +65,7 @@ if (app.get('env') === 'development') {
         });
     });
 }
-
-// production error handler
-// no stacktraces leaked to user
+// production error
 app.use(function(err, req, res, next) {
     res.status(err.status || 500);
     res.render('error', {

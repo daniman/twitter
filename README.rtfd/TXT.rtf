@@ -1,0 +1,116 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1265\cocoasubrtf210
+{\fonttbl\f0\fnil\fcharset0 Menlo-Regular;\f1\fnil\fcharset0 Menlo-Bold;\f2\fnil\fcharset0 Menlo-Italic;
+\f3\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;}
+\margl1440\margr1440\vieww14160\viewh16600\viewkind0
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\f0\fs28 \cf0 ========================\
+Twitter Clone : Fritter\
+========================\
+
+\fs24 \
+
+\f1\b\fs36 Grading Directions:
+\fs28 \
+\
+
+\f2\i\b0\fs26 Structure\
+
+\f0\i0\fs24 The two most important files (in my opinion) are index.js and users.js, which hold all the get and post requests for the app and can be found in the routes folder. The views folder contains the html structure of the app. The app has 4 pages: index, new_user, login, and edit_tweet - the pages are self explanatory. There\'92s a partials folder in the views folder that holds snippets of the html code for organizational and simplicity purposes, like the header and the tweet list. The app.js file holds the middleware, and was for the most part precompiled by node/express.\
+\
+|_ bin\
+|_ data\
+|_ node_modules\
+|_ public\
+|_ routes\
+	|_ 
+\f1\b index.js
+\f0\b0 \
+	|_ 
+\f1\b users.js
+\f0\b0 \
+|_ views\
+	|_ 
+\f1\b index.ejs
+\f0\b0 \
+	|_ 
+\f1\b edit_tweets.ejs\
+	
+\f0\b0 |_ error.ejs\
+	|_ partials\
+		|_ 
+\f1\b tweets.ejs\
+		
+\f0\b0 |_ 
+\f1\b header.ejs\
+
+\f0\b0 		|_ 
+\f1\b logged_in.ejs\
+		
+\f0\b0 |_ 
+\f1\b logged_out.ejs
+\f0\b0 \
+	|_ users\
+		|_ 
+\f1\b login_form.ejs\
+		
+\f0\b0 |_ 
+\f1\b new_user.ejs
+\f0\b0 \
+|_ app.js\
+|_ package.json\
+\
+The files that are bolded are the ones that I added/consider to be most important; they are the life of the app.\
+
+\f1\b \
+
+\f2\i\b0\fs26 Highlights\
+
+\f0\i0 Though this isn\'92t strictly code, I think that the best part of how I built my app was the way that I structured the views by using ejs partials (avoiding repeated code in the header, etc). Because ejs is a combination of html and javascript, big files like the index page can get confusing really easily. Because of this, I took the separate components of the index page and stored them as partial views, so that when you look at the index page as a whole, it makes a lot more sense. In terms of how I wrote the code, I think that all of my get/post functions are clear and logical - i.e. they\'92re not hacks. Since I am new to node/express/mongo, they\'92re not as efficient/compact as they could be because I invested all my time in the logic and making them work. Making the code cleaner and more simple is something that I\'92m going to focus on for phase 2 of the project.
+\f2\i \
+
+\f0\i0\fs24 \
+
+\f2\i\fs26 Help Wanted\
+
+\f0\i0 The way my MongoDB is set up right now, I have two collections: tweets and users. Each user consists of a first name, last name, username, and password. Each tweet consists of a tweet text, author id, author first name, author last name, and author username. I need the tweet to know the first, last, and user names of the author because it displays this information on the home page. I\'92d really like for the tweet to just be associated with an author id, and then be able to query the database and retrieve the rest of the authors information on the spot, but I\'92m creating this list in the tweets.ejs file, and I don\'92t think that you cane make a mongo query inside a for loop in an ejs file. The code has a lot of repeated information though and therefore wasted memory space. I would greatly appreciate advice on how to solve this problem.
+\fs24 \
+\
+\
+\
+
+\f1\b\fs36 Design
+\fs28 :\
+
+\fs24 \
+
+\f2\i\b0\fs26 Overview\
+
+\f0\i0 For phase 1 of this project, our assignment was to build a basic twitter clone with some sort of user authentication and the ability for users to post, edit, and delete tweets. I believe the purpose of this project was to introduce and familiarize us to some of the key functionalities of node and mongo. I have not implemented any abstract data types, as I did with the last project. The interactions of the system don\'92t go beyond sending and retrieving queries from the server and mongodb.
+\f2\i \
+\
+Design Model\
+
+\f0\i0 I\'92m not entirely sure what this section is looking for, but I believe that I\'92ve described my data model above. I have two collections being stored in mongo: users and tweets. All the twitter clone application really does is access/change/add/remove from these two collections, or display the data in them.
+\f2\i \
+\
+Behavior\
+
+\f0\i0 There are a lot of security concerns in the user authenticity portion of this app because I have not added any checks or catches for possible failure cases - for the scope of the project we were told not to worry about this though.\
+\
+Here is a state diagram of the pages of the app:\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural
+
+\f3\fs24 \cf0 {{\NeXTGraphic Pasted Graphic 1.tiff \width9640 \height4000
+}¬}
+\f0\fs26 \
+\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\f2\i \cf0 \
+Design Challenges
+\f0\i0\fs24 \
+The biggest challenge for me for this project was the learning curve associated with using node/mongo for the first time. As a result, the process was slow and I ran into a lot of challenges, though most of those challenges were due to a lack of understanding of the framework as opposed to running into a challenge with how the app is structured. I suppose the biggest challenge that I found (and still don\'92t know how to overcome) is what I talked about in the 
+\f2\i Help Wanted
+\f0\i0  section: each tweet in my database should only have two attributes, tweet text and author id, yet I have not figured out a way to query mongo in ejs/on the spot in the html so that I can retrieve all other information about the author that I need to display with every tweet in the tweet feed (user first, last, and user name).}

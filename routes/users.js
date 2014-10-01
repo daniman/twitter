@@ -3,6 +3,11 @@ var router = express.Router();
 
 module.exports = router;
 
+/**
+-- LOGIN PAGE --
+get login: directs user to login form
+post login: authenticates user, logs them in
+**/
 router.get('/login', function(req, res) {
   res.render('users/login_form', {title: "Login"});
 });
@@ -12,21 +17,20 @@ router.post('/login', function(req, res) {
   	users.findOne({
   		'username': req.body.username,
   		'password': req.body.password
-  	}, function(err, docs){
-  		if (err) {
-  			res.write('<p>user not found</p>');
+  	}, function(e, docs){
+  		if (e) {
+  			res.redirect('/');
   		} else {
-  			if (docs.length == 0) {
-  				console.log("no username/password match found");
-  				res.write('<p>user not found</p>');
-  			} else {
-  				req.session.first = docs.first;
-  				req.session.last = docs.last;
-  				req.session.username = docs.username;
-  				req.session.user_id = docs._id;
-  				res.redirect('/');
-  			}
-  		}
+			if (docs == null) {
+				res.write('<p>user not found</p>');
+			} else {
+				req.session.first = docs.first;
+				req.session.last = docs.last;
+				req.session.username = docs.username;
+				req.session.user_id = docs._id;
+				res.redirect('/');
+			}
+		}
   	});
 });
 
@@ -46,7 +50,6 @@ router.post('/new_user', function(req, res, next) {
 			if(err){
 				res.write('<p>There was a problem :(</p>');
 			}else{
-				console.log(docs)
 				req.session.first = docs.first;
 				req.session.last = docs.last;
 				req.session.username = docs.username;
