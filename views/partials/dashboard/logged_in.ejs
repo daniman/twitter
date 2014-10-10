@@ -6,15 +6,19 @@
 </div>
 
 <div class="row">
-	<div class="col-sm-4 number_label">
+	<div class="col-sm-3 number_label">
 		Tweets <br>
 		<span class="number"><%= user.tweet.tweets.length %></span>
 	</div>
-	<div class="col-sm-4 number_label">
+	<div class="col-sm-3 number_label">
+		Favorites <br>
+		<span class="number"><%= user.tweet.favorites.length %></span>
+	</div>
+	<div class="col-sm-3 number_label">
 		Following <br>
 		<span class="number"><%= user.follow.following.length %></span>
 	</div>
-	<div class="col-sm-4 number_label">
+	<div class="col-sm-3 number_label">
 		Followers <br>
 		<span class="number"><%= user.follow.followers.length %></span>
 	</div>

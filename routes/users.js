@@ -9,7 +9,7 @@ get login: directs user to login form
 post login: authenticates user, logs them in
 **/
 router.get('/login', function(req, res) {
-  res.render('login', {title: "Login"});
+  res.render('secondary/login', {title: "Login"});
 });
 
 router.post('/login', function(req, res) {
@@ -41,7 +41,7 @@ post new_user: logs user in, directs back to index
 **/
 
 router.get('/signup', function(req, res) {
-  res.render('signup', {title: "Create New User"});
+  res.render('secondary/signup', {title: "Create New User"});
 });
 
 router.post('/signup', function(req, res, next) {

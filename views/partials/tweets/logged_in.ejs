@@ -11,26 +11,17 @@
 		<i>@<%= tweet.author.auth.username %></i>: <br>
 		<%= tweet.text %>
 
-		<% console.log(user.tweet.favorites) %>
-		<% console.log(tweet._id.toString()) %>
-		<% console.log(user.tweet.favorites.indexOf(tweet._id.toString())) %>
-
 		<% if (user.tweet.favorites.indexOf(tweet._id.toString()) == -1) { %>
-
 			<form name="input" action="favorite" method="post" id="favorite">
 				<button type="submit" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-star"></span></button>
 				<input type="hidden" name="tweet_id" value=<%= tweet._id.toString()%>>
 			</form>
-
 		<% } else { %>
-
 			<form name="input" action="unfavorite" method="post" id="unfavorite">
 				<button type="submit" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-star"></span></button>
 				<input type="hidden" name="tweet_id" value=<%= tweet._id.toString()%>>
 			</form>
-
 		<% } %>
-
 
 		<% if (user != null) { %>
 			<% if (tweet.author._id.toString() == user._id.toString()) { %>

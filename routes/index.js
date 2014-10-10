@@ -88,7 +88,7 @@ router.post('/tweet', function(req, res, next) {
 });
 
 /**
--- LOGOUT BUTTON --
+-- LOGOUT --
 logs user out on request (nullifies session)
 **/
 router.post('/logout', function(req, res, next) {
@@ -153,32 +153,28 @@ router.post('/delete', function(req, res, next) {
 **/
 router.post('/edit', function(req, res, next) {
 	req.session.tweet_id = req.body.tweet_id;
-	res.redirect("/edit_tweet");
+	res.redirect("edit_tweet");
 });
 
 router.get('/edit_tweet', function(req, res) {
+	console.log("meow")
 	if (req.session.username == false) {
 	  	res.redirect("/");
 	}
-	var tweets = req.db.get('tweets');
-	tweets.findOne({
-	  	'_id': new req.mongo.ObjectID(req.session.tweet_id)
-	}, function(e, docs){
-	  	console.log(docs);
-	  	res.render('edit_tweet', {
+	var tweets = req.Tweet;
+	tweets.findOne({'_id': req.session.tweet_id}, function (err, docs) {
+	  	res.render('secondary/edit_tweet', {
 	  		title: 'Fritter',
-	  		'tweet': docs.tweet
+	  		'tweet': docs.text
 	  	});
 	});
 });
 
 router.post('/edited_tweet', function(req, res, next) {
-	var tweets = req.db.get('tweets');
-	tweets.update({
-	  	'_id': new req.mongo.ObjectID(req.session.tweet_id)
-	}, { $set:{
-		'tweet': req.body.tweet
-	}});
+	var tweets = req.Tweet;
+	tweets.update({'_id': req.session.tweet_id}, {
+		$set:{'text': req.body.tweet}
+	}, function (err) {});
 	req.session.tweet_id = null;
 	res.redirect("/");
 });
