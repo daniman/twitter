@@ -1,5 +1,4 @@
 {
-  "name": "openshift-mongodb",
   "description": "basic Node.js + MongoDB template for OpenShift",
 
   "repository": {
