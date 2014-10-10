@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <% include partials/header %>
+  </head>
+
+  <body>
+
+    <div class="col-md-4 text-center">
+      <% if(username) { %>
+        <% include partials/logged_in %>
+      <% } else { %>
+        <% include partials/logged_out %>
+      <% } %>
+    </div>
+
+    <div class="col-md-8">
+      <div id="tweet_container">
+        <h1 id="title" class="text-center"><%= title %>   <img src="images/fritter.png" height="39" width="55"></h1>
+        <hr>
+        
+          <% for(var i=user.tweet.tweets.length-1; i>=0; i--){ %>
+            <% var tweet = user.tweet.tweets[i] %>
+              <div class="tweet active">
+                <b><%= user.auth.first %> <%= user.auth.last %></b>
+                <i>@<%= user.auth.username %></i>: <br>
+                <%= tweet.text %>
+                <form name="input" action="edit" method="post" id="edit">
+                  <button type="submit"><span class="glyphicon glyphicon-pencil"></span></button>
+                  <input type="hidden" name="tweet_id" value=<%= tweet._id%>>
+                </form>
+                <form name="input" action="delete" method="post" id="delete">
+                  <button type="submit"><span class="glyphicon glyphicon-trash"></span></button>
+                  <input type="hidden" name="tweet_id" value=<%= tweet._id%>>
+                </form>
+              </div>
+          <% } %>
+
+      </div>      
+    </div>
+
+  </body>
+</html>

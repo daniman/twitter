@@ -5,22 +5,43 @@
   </head>
 
   <body>
+    <div class="container">
 
-    <div class="col-sm-4 text-center">
-      <% if(username) { %>
-        <% include partials/logged_in %>
-      <% } else { %>
-        <% include partials/logged_out %>
-      <% } %>
+      <div class="col-sm-4 text-center">
+
+        <div id="dashboard">
+          <% if(user != null) { %>
+            <% include partials/dashboard/logged_in %>
+          <% } else { %>
+            <% include partials/dashboard/logged_out %>
+          <% } %>
+        </div>
+
+        <% if(user != null) { %>
+          <div id="users">
+            <h4 id="follow_title">Who to Follow</h4>
+            <% include partials/follows %>
+          </div>
+          <div id="logout" class="row">
+            <form name="input" action="logout" method="post">
+            <button type="submit" class="btn btn-default">Logout</button>
+            </form>
+          </div>
+        <% } %>
+
+      </div>
+
+      <div class="col-sm-8">
+        <div id="tweet_container">
+          <h2 id="title">Freets</h2>
+          <% if(user != null) { %>
+            <% include partials/tweets/logged_in %>
+          <% } else { %>
+            <% include partials/tweets/logged_out %>
+          <% } %>
+        </div>
+      </div>
+
     </div>
-
-    <div class="col-sm-8">
-      <div id="tweet_container">
-        <h1 id="title" class="text-center"><%= title %>   <img src="images/fritter.png" height="39" width="55"></h1>
-        <hr>
-        <% include partials/tweets %>
-      </div>      
-    </div>
-
   </body>
 </html>

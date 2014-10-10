@@ -9,53 +9,67 @@ get login: directs user to login form
 post login: authenticates user, logs them in
 **/
 router.get('/login', function(req, res) {
-  res.render('users/login_form', {title: "Login"});
+  res.render('login', {title: "Login"});
 });
 
 router.post('/login', function(req, res) {
-  	var users = req.db.get('users');
+  	var users = req.User;
   	users.findOne({
-  		'username': req.body.username,
-  		'password': req.body.password
-  	}, function(e, docs){
+  		'auth.username': req.body.username,
+  		'auth.password': req.body.password
+  	}, function(e, user){
   		if (e) {
   			res.redirect('/');
   		} else {
-			if (docs == null) {
-				res.write('<p>user not found</p>');
+			if (user == null) {
+				res.write('<p style="background-color: white">user not found</p>');
 			} else {
-				req.session.first = docs.first;
-				req.session.last = docs.last;
-				req.session.username = docs.username;
-				req.session.user_id = docs._id;
+				req.session.first = user.auth.first;
+				req.session.last = user.auth.last;
+				req.session.username = user.auth.username;
+				req.session.user_id = user._id;
 				res.redirect('/');
 			}
 		}
   	});
 });
 
-router.get('/new_user', function(req, res) {
-  res.render('users/new_user', {title: "Create New User"});
+/**
+-- NEW USER PAGE --
+get new_user: directs user to a form where they can create an account
+post new_user: logs user in, directs back to index
+**/
+
+router.get('/signup', function(req, res) {
+  res.render('signup', {title: "Create New User"});
 });
 
-// TODO: Check that there are not multiple users with the same username
-router.post('/new_user', function(req, res, next) {
-	var users = req.db.get('users');
-	var id = users.insert({
-		"first": req.body.first,
-		"last": req.body.last,
-		"username": req.body.username,
-		"password": req.body.password
-	}, function(err, docs){
-			if(err){
-				res.write('<p>There was a problem :(</p>');
-			}else{
-				req.session.first = docs.first;
-				req.session.last = docs.last;
-				req.session.username = docs.username;
-				req.session.user_id = docs._id;
-				res.redirect("/");
-			}
+router.post('/signup', function(req, res, next) {
+	var user = new req.User({
+		auth: {
+			first: req.body.first,
+			last: req.body.last,
+			username: req.body.username,
+			password: req.body.password
+		},
+		follow: {
+			following: [],
+			followers: []
+		},
+		tweet: {
+			tweets: [],
+			retweets: [],
+			favorites: []
+		},
+		isRetweet: undefined
 	});
-
+	user.save(function (err) {
+		if (err) {
+		  	console.log('meow');
+		} else {
+			req.session.username = req.body.username;
+			req.session.user_id = user.id;
+		  	res.redirect("/");
+		}
+	});
 });

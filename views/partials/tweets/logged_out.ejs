@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+
+<% for(var i=tweets.length-1; i>=0; i--){ %>
+	<% var tweet = tweets[i] %>
+
+	<hr>
+	<div class="tweet">
+		<b><%= tweet.author.auth.first %> <%= tweet.author.auth.last %></b>
+		<i>@<%= tweet.author.auth.username %></i>: <br>
+		<%= tweet.text %>
+	</div>
+
+
+<% } %>

@@ -1,26 +1,65 @@
 var express = require('express');
 var router = express.Router();
+var mongo = require('mongodb');
 
 /**
 -- INDEX PAGE --
 shows tweets and user information
 **/
 router.get('/', function(req, res) {
-  var db = req.db;
-  var tweets = db.get('tweets');
-  if (req.session.username == undefined) {
-  	req.session.username = false
-  }
-  tweets.find({}, function(e, docs){
-  	res.render('index', {
-  		title: 'Fritter',
-  		'tweets': docs,
-  		'username': req.session.username,
-  		'first': req.session.first,
-  		'last': req.session.last,
-  		'user_id': req.session.user_id
-  	});
-  });
+	if (req.session.username == undefined) {
+		req.session.username = false
+	}
+	var tweets = req.Tweet;
+	var users = req.User;
+	users.findOne({'auth.username': req.session.username}, function (err, user) {
+		users.find({}, function (err, follows) {
+			tweets.find({}).populate("author").exec({}, function (err, tweets) {
+				res.render('index', {
+					'title' : 'Fritter',
+					'user' : user,
+					'follows': follows, 
+					'tweets': tweets
+				});
+			});
+		})
+	});
+	
+});
+
+/**
+-- FOLLOW USER --
+adds new tweet text/user info to database
+**/
+router.post('/follow', function(req, res, next) {
+	var users = req.User;
+	users.update({'auth.username': req.session.username}, 
+		{$push: {'follow.following': req.body.follow_id}}, 
+		{upsert: true}, 
+		function (err, user) {});
+	users.update({'_id': req.body.follow_id}, 
+		{$push: {'follow.followers': req.session.user_id}}, 
+		{upsert: true}, 
+		function (err, user) {});
+  	res.redirect("/");	
+});
+
+/**
+-- UNFOLLOW USER --
+adds new tweet text/user info to database
+**/
+router.post('/unfollow', function(req, res, next) {
+	console.log("unfollow request whipee!!!");
+	var users = req.User;
+	users.update({'auth.username': req.session.username}, 
+		{$pull: {'follow.following': req.body.follow_id}}, 
+		{upsert: true}, 
+		function (err, user) {});
+	users.update({'_id': req.body.follow_id}, 
+		{$pull: {'follow.followers': req.session.user_id}}, 
+		{upsert: true}, 
+		function (err, user) {});
+  	res.redirect("/");	
 });
 
 /**
@@ -28,18 +67,22 @@ router.get('/', function(req, res) {
 adds new tweet text/user info to database
 **/
 router.post('/tweet', function(req, res, next) {
-  	var tweets = req.db.get('tweets');
-	tweets.insert({
-		"tweet": req.body.tweet,
-		"author": req.session.user_id,
-		"author_first": req.session.first,
-		"author_last": req.session.last,
-		"author_username": req.session.username
-	}, function(err, docs){
-		if(err){
-			res.send("There was a problem");
-		}else{
-			res.redirect("/");
+	var tweet = new req.Tweet({
+		author: req.session.user_id,
+		favorites: [],
+		retweets: [],
+		text: req.body.tweet
+	});
+	tweet.save(function (err) {
+		if (err) {
+		  	console.log('meow');
+		} else {
+			var users = req.User;
+			users.update({'auth.username': req.session.username}, 
+				{$push: {'tweet.tweets': tweet.id}}, 
+				{upsert: true}, 
+				function (err, user) {});
+		  	res.redirect("/");
 		}
 	});
 });
@@ -56,22 +99,58 @@ router.post('/logout', function(req, res, next) {
 	res.redirect("/");
 });
 
+/**
+-- FAVORITE TWEET --
+adds new tweet text/user info to database
+**/
+router.post('/favorite', function(req, res, next) {
+	var users = req.User;
+	var tweets = req.Tweet;
+	users.update({'auth.username': req.session.username}, 
+		{$push: {'tweet.favorites': req.body.tweet_id}}, 
+		function (err, user) {});
+	tweets.update({'_id': req.body.tweet_id}, 
+		{$push: {'favorites': req.session.user_id}}, 
+		function (err, user) {});
+  	res.redirect("/");	
+});
 
 /**
--- EDIT TWEET ACTIONS --
-post delete: removes requested tweet from database
-post edit: user requests to edit tweet, sends tweet_id to edit_tweet page
-get edit_tweet: user edits text of tweet
-post edited_tweet: updates db with tweet edit, routes user to index page
+-- UNFAVORITE TWEET --
+adds new tweet text/user info to database
+**/
+router.post('/unfavorite', function(req, res, next) {
+	var users = req.User;
+	var tweets = req.Tweet;
+	users.update({'auth.username': req.session.username}, 
+		{$pull: {'tweet.favorites': req.body.tweet_id}}, 
+		function (err, user) {});
+	tweets.update({'_id': req.body.tweet_id}, 
+		{$pull: {'favorites': req.session.user_id}}, 
+		function (err, user) {});
+  	res.redirect("/");	
+});
+
+
+/**
+-- DELETE TWEET --
 **/
 router.post('/delete', function(req, res, next) {
-	var tweets = req.db.get('tweets');
+	tweets = req.Tweet;
 	tweets.remove({
-		'_id': new req.mongo.ObjectID(req.body.tweet_id)
-	});
+		'_id': mongo.ObjectID(req.body.tweet_id)
+	}, function (err) {});
+	var users = req.User;
+	users.update({'auth.username': req.session.username}, 
+		{$pull: {'tweet.tweets': req.body.tweet_id}}, 
+		{upsert: true}, 
+		function (err, user) {});
 	res.redirect("/");
 });
 
+/**
+-- EDIT TWEET --
+**/
 router.post('/edit', function(req, res, next) {
 	req.session.tweet_id = req.body.tweet_id;
 	res.redirect("/edit_tweet");
@@ -103,5 +182,6 @@ router.post('/edited_tweet', function(req, res, next) {
 	req.session.tweet_id = null;
 	res.redirect("/");
 });
+
 
 module.exports = router;

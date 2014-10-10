@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+
+<div class="row">
+	<p id="name"> <%= user.auth.first %> <%= user.auth.last %> </p>
+	<p id="username" > @<%= user.auth.username %> </p>
+</div>
+
+<div class="row">
+	<div class="col-sm-4 number_label">
+		Tweets <br>
+		<span class="number"><%= user.tweet.tweets.length %></span>
+	</div>
+	<div class="col-sm-4 number_label">
+		Following <br>
+		<span class="number"><%= user.follow.following.length %></span>
+	</div>
+	<div class="col-sm-4 number_label">
+		Followers <br>
+		<span class="number"><%= user.follow.followers.length %></span>
+	</div>
+</div>
+
+<hr>
+
+<div class="row" id="write_tweet">
+  <form id="new_tweet" name="input" action="tweet" method="post">
+    <textarea rows="6" type="text" name="tweet" placeholder="Compose new Tweet..."></textarea>
+    <button id="submit" type="submit" class="btn btn-default">Submit</button>
+  </form>
+</div>

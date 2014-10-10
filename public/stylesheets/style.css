@@ -2,36 +2,133 @@ body {
   	padding: 50px;
   	font-family: 'Lato', sans-serif;
 	font-weight: 300;
+
+    background-image: url('https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcS4JuqFI1ceZqn4_l73spz8KxRv-PxmctWsGGZMfUmIT0P9f4q6');
+    background-repeat: repeat;
+}
+
+hr {
+	margin-top: 10px !important;
+	margin-bottom: 10px !important;
+}
+
+#submit {
+	margin-bottom: 10px;
+}
+
+#logout {
+	margin: 15px;
+}
+
+#tweet_container {
+	background-color: white;
+	border-top: 1px solid white;
+	border-bottom: 10px solid white;
+	border-radius: 10px;
+}
+
+#follow_title {
+	color: #848484;
+	text-align: left;
+	padding-top: 10px;
+	padding-left: 10px;
+	font-weight: 300;
+}
+
+.tweet {
+	padding-left: 10px;
+	padding-right: 10px;
+	word-wrap: break-word;
+}
+
+.follow {
+	padding-left: 10px;
+	text-align: left;
 }
 
 #title {
-	color: #751919;
+	color: #a6a6a6;
+	font-weight: 300;
+	text-align: left;
+}
+
+#dashboard {
+	border-top: 40px solid #87c309;
+	background-color: white;
+	border-radius: 10px;
+}
+
+#users {
+	background-color: white;
+	border-radius: 10px;
+	margin-top: 10px;
+	padding-bottom: 10px;
+}
+
+#name {
+	text-align: left;
+	font-size: 25px;
+	font-weight: 500;
+	margin-left: 30px;
+	margin-bottom: 0px;
+}
+
+#username {
+	text-align: left;
+	font-size: 15px;
+	color: #666666;
+	margin-left: 30px;
+}
+
+.number_label {
+	color: #a3a3a3;
+}
+
+.number {
+	font-weight: 500;
+	color: #87c309;
+}
+
+#write_tweet {
+	margin: 2px;
+	border-radius: 0px 0px 10px 10px;
 }
 
 #new_tweet {
 	color: #751919;
 }
 
-.tweet {
-	border: 1px solid #ccc;
-	padding: 5px;
-	border-radius: 2px;
-	margin: 5px;
+#tweets {
+	background-color: white;
+	border-radius: 10px;
 }
 
-#edit, #delete {
+.glyphicon {
+	color: #6C9D07;
+}
+
+#edit, #delete, #follow, #unfollow, #favorite, #unfavorite {
 	display: inline-block;
-	color: #751919;
+}
+
+#unfavorite button {
+	background-color: #87c309;
+}
+
+#unfavorite button span {
+	color: white;
 }
 
 #login_buttons {
-	border: 1px solid #ccc;
 	padding: 50px 0px 50px 0px;
-	background-color: #f1e8e8;
 }
 
 textarea {
-	width: 100%;
+	min-width: 95%;
+	max-width: 95%;
+	border-radius: 5px;
+	border: 1px solid #ccc;
+	height: 80px;
 }
 
 .active {
