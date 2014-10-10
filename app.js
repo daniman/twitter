@@ -8,7 +8,7 @@ var logger = require('morgan');
 
 // var monk = require('monk');
 var mongoose = require('mongoose');
-
+var connection_string = 'localhost/twitter'
 // openshift dependencies
 if (process.env.OPENSHIFT_MONGODB_DB_PASSWORD) {
   connection_string = process.env.OPENSHIFT_MONGODB_DB_USERNAME + ':' +
@@ -18,8 +18,7 @@ if (process.env.OPENSHIFT_MONGODB_DB_PASSWORD) {
 }
 
 // instantiate db, routes, and users
-// var db = monk(connection_string);
-mongoose.connect('localhost/twitter');
+mongoose.connect(connection_string);
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function callback() {
