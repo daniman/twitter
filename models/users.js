@@ -16,7 +16,6 @@ var userSchema = mongoose.Schema({
 		retweets: [{ type: String, ref: "Tweet"}],
 		favorites: [{ type: String, ref: "Tweet"}],
 	},
-	isRetweet: mongoose.Schema.Types.Mixed
 })
 
 var User = mongoose.model('User', userSchema);

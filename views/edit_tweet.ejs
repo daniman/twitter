@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+  
+  <head>
+    <% include partials/header %>
+  </head>
+
+  <body>
+
+    <div>
+
+      <div id="edit_tweet" class="text-center">
+        <form name="input" action="edited_tweet" method="post">
+          <h2>Edit tweet</h2>
+          <textarea rows="6" type="text" name="tweet"><%= tweet %></textarea>
+          <button type="submit" class="btn btn-default">Save</button>
+        </form>
+      </div>
+
+    </div>
+
+  </body>
+</html>
